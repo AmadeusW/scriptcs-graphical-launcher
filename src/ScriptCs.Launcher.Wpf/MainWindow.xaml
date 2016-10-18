@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Margin="0 50 0 0">
+            <TextBlock>Script path: </TextBlock>
+            <TextBox x:Name="Path" KeyUp="Path_KeyUp"/>
+            <Button x:Name="ExecuteButton" Click="Button_Click">Execute</Button>
+            <TextBlock x:Name="StatusText"> </TextBlock>
+        </StackPanel>
     </Grid>
 </Window>
