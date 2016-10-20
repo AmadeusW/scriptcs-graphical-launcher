@@ -16,7 +16,7 @@
             <TextBlock>Script path: </TextBlock>
             <TextBox x:Name="Path" KeyUp="Path_KeyUp"/>
             <Button x:Name="ExecuteButton" Click="Button_Click">Execute</Button>
-            <TextBlock x:Name="StatusText"> </TextBlock>
+            <TextBox x:Name="StatusText" IsReadOnly="True" MinLines="5"> </TextBox>
         </StackPanel>
     </Grid>
 </Window>

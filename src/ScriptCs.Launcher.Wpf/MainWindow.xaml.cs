@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -43,12 +44,24 @@ if (scriptHost == null)
             string path = Path.Text.Trim(' ', '"', '\'');
             await Task.Run(() =>
             {
+#if false
                 AppDomain appDomain = AppDomain.CreateDomain("ScriptDomain");
                 var evaluator = appDomain.CreateInstanceAndUnwrap("ScriptCs.Launcher", "ScriptCs.Launcher.ScriptHost");
                 var host = evaluator as ScriptHost;
                 host.Initialize();
                 result = host.Execute(path);
                 AppDomain.Unload(appDomain);
+#else
+                var processStartInfo = new System.Diagnostics.ProcessStartInfo()
+                {
+                    Arguments = $"{path} -cache",
+                    CreateNoWindow = true,
+                    FileName = "scriptcs",
+                    UseShellExecute = false,
+                };
+                var proc = System.Diagnostics.Process.Start(processStartInfo);
+                proc.WaitForExit();
+#endif
             });
             ExecuteButton.IsEnabled = true;
             StatusText.Text = result?.ToString();
