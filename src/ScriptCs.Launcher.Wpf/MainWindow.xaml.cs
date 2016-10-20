@@ -38,7 +38,7 @@ if (scriptHost == null)
     scriptHost.Initialize();
 }
 */
-            Object result = null;
+            String output = null;
             string path = Path.Text.Trim(' ', '"', '\'');
             await Task.Run(() =>
             {
@@ -48,11 +48,14 @@ if (scriptHost == null)
                     CreateNoWindow = true,
                     FileName = "scriptcs",
                     UseShellExecute = false,
+                    RedirectStandardOutput = true,
                 };
                 var proc = System.Diagnostics.Process.Start(processStartInfo);
+                output = proc.StandardOutput.ReadToEnd();
                 proc.WaitForExit();
+
             });
-            StatusText.Text = result?.ToString();
+            StatusText.Text = output?.ToString();
         }
 
         private async void Path_KeyUp(Object sender, KeyEventArgs e)
