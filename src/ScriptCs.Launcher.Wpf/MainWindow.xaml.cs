@@ -40,11 +40,14 @@ if (scriptHost == null)
 */
             String output = null;
             string path = Path.Text.Trim(' ', '"', '\'');
+            string parameters = String.IsNullOrWhiteSpace(Params.Text) ? String.Empty : $"-- {Params.Text}";
+            string arguments = $"\"{path}\" {parameters}";
+
             await Task.Run(() =>
             {
                 var processStartInfo = new System.Diagnostics.ProcessStartInfo()
                 {
-                    Arguments = $"{path} -cache",
+                    Arguments = arguments,
                     CreateNoWindow = true,
                     FileName = "scriptcs",
                     UseShellExecute = false,
