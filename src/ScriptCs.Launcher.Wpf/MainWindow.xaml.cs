@@ -38,8 +38,6 @@ if (scriptHost == null)
     scriptHost.Initialize();
 }
 */
-
-            ExecuteButton.IsEnabled = false;
             Object result = null;
             string path = Path.Text.Trim(' ', '"', '\'');
             await Task.Run(() =>
@@ -54,12 +52,12 @@ if (scriptHost == null)
                 var proc = System.Diagnostics.Process.Start(processStartInfo);
                 proc.WaitForExit();
             });
-            ExecuteButton.IsEnabled = true;
             StatusText.Text = result?.ToString();
         }
 
         private async void Path_KeyUp(Object sender, KeyEventArgs e)
         {
+            ExecuteButton.IsEnabled = false;
             try
             {
                 if (e.Key == Key.Enter)
@@ -71,10 +69,12 @@ if (scriptHost == null)
             {
                 StatusText.Text = ex.Message;
             }
+            ExecuteButton.IsEnabled = true;
         }
 
         private async void Button_Click(Object sender, RoutedEventArgs e)
         {
+            ExecuteButton.IsEnabled = false;
             try
             {
                 await Execute();
@@ -83,6 +83,7 @@ if (scriptHost == null)
             {
                 StatusText.Text = ex.Message;
             }
+            ExecuteButton.IsEnabled = true;
         }
     }
 }
