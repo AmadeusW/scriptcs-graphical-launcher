@@ -44,14 +44,6 @@ if (scriptHost == null)
             string path = Path.Text.Trim(' ', '"', '\'');
             await Task.Run(() =>
             {
-#if false
-                AppDomain appDomain = AppDomain.CreateDomain("ScriptDomain");
-                var evaluator = appDomain.CreateInstanceAndUnwrap("ScriptCs.Launcher", "ScriptCs.Launcher.ScriptHost");
-                var host = evaluator as ScriptHost;
-                host.Initialize();
-                result = host.Execute(path);
-                AppDomain.Unload(appDomain);
-#else
                 var processStartInfo = new System.Diagnostics.ProcessStartInfo()
                 {
                     Arguments = $"{path} -cache",
@@ -61,7 +53,6 @@ if (scriptHost == null)
                 };
                 var proc = System.Diagnostics.Process.Start(processStartInfo);
                 proc.WaitForExit();
-#endif
             });
             ExecuteButton.IsEnabled = true;
             StatusText.Text = result?.ToString();
