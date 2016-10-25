@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +24,7 @@ namespace ScriptCs.Launcher.Wpf
     public partial class MainWindow : Window
     {
         ScriptHost scriptHost = null;
+        AppController controller = null;
 
         public MainWindow()
         {
@@ -90,6 +92,31 @@ if (scriptHost == null)
                 StatusText.Text = ex.Message;
             }
             ExecuteButton.IsEnabled = true;
+        }
+
+        private async void Window_Initialized(object sender, EventArgs e)
+        {
+            try
+            {
+                controller = await AppController.Initialize();
+                this.DataContext = controller.ViewModel;
+            }
+            catch
+            {
+                Debugger.Break();
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                controller.Save();
+            }
+            catch
+            {
+                Debugger.Break();
+            }
         }
     }
 }

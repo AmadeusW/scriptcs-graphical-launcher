@@ -5,18 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScriptCs.Launcher.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Initialized="Window_Initialized" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="1" Margin="0 20 0 0">
+        
+        <ListBox x:Name="allItems" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch"
+        ItemsSource="{Binding Path=Scripts}">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{Binding Name}" Padding="3" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.Template>
+                <ControlTemplate>
+                    <StackPanel IsItemsHost="True" Orientation="Vertical" Margin="5" />
+                </ControlTemplate>
+            </ListBox.Template>
+        </ListBox>
+
+        <DockPanel Grid.Column="1" Margin="10">
+            <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Text="{Binding SelectedItem.Name, ElementName=allItems}" />
             <TextBlock DockPanel.Dock="Top">Script path: </TextBlock>
-            <TextBox DockPanel.Dock="Top" x:Name="Path" KeyUp="Path_KeyUp"/>
+            <TextBox DockPanel.Dock="Top" x:Name="Path" KeyUp="Path_KeyUp" Text="{Binding SelectedItem.Path, ElementName=allItems}" />
             <TextBlock DockPanel.Dock="Top">Script params:</TextBlock>
-            <TextBox DockPanel.Dock="Top" x:Name="Params" KeyUp="Path_KeyUp"/>
+            <TextBox DockPanel.Dock="Top" x:Name="Params" KeyUp="Path_KeyUp" Text="{Binding SelectedItem.Arguments, ElementName=allItems}" />
             <Button DockPanel.Dock="Top" x:Name="ExecuteButton" Click="Button_Click">Execute</Button>
             <TextBox x:Name="StatusText" IsReadOnly="True"> </TextBox>
         </DockPanel>
