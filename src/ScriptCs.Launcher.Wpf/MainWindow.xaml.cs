@@ -61,6 +61,10 @@ if (scriptHost == null)
 
             });
             StatusText.Text = output?.ToString();
+            await Task.Run(() =>
+            {
+                // Store the log
+            });
         }
 
         private async void Path_KeyUp(Object sender, KeyEventArgs e)
