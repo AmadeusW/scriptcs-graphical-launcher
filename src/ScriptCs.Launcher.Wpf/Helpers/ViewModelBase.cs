@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCs.Launcher.Wpf.Helpers
 {
-    internal class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
 
