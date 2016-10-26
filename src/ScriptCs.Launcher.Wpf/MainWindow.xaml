@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScriptCs.Launcher.Wpf"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Initialized="Window_Initialized" Closing="Window_Closing">
     <Grid>
@@ -18,7 +19,13 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="{Binding Name}" Padding="3" />
+                        <Button Padding="3" Background="GreenYellow">
+                            <StackPanel>
+                                <fa:ImageAwesome 
+                                    Icon="{Binding Path=Icon, Converter={fa:CssClassNameConverter}}" Width="50" Height="50" Foreground="Black"/>
+                                <TextBlock Text="{Binding Path=Name}"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
