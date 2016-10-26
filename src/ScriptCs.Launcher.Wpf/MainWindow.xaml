@@ -19,7 +19,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Button Padding="3" Background="GreenYellow">
+                        <Button Padding="3">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Path=Color}" />
+                            </Button.Background>
                             <StackPanel>
                                 <fa:ImageAwesome 
                                     Icon="{Binding Path=Icon, Converter={fa:CssClassNameConverter}}" Width="50" Height="50" Foreground="Black"/>
