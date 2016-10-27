@@ -47,7 +47,8 @@ if (scriptHost == null)
 
             await Task.Run(() =>
             {
-                var processStartInfo = new System.Diagnostics.ProcessStartInfo()
+                var p = new Process();
+                p.StartInfo = new ProcessStartInfo()
                 {
                     Arguments = arguments,
                     CreateNoWindow = true,
@@ -55,12 +56,22 @@ if (scriptHost == null)
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                 };
-                var proc = System.Diagnostics.Process.Start(processStartInfo);
-                output = proc.StandardOutput.ReadToEnd();
-                proc.WaitForExit();
+
+                p.OutputDataReceived += new DataReceivedEventHandler(
+                    (s, e) =>
+                    {
+                        StatusText.Dispatcher.BeginInvoke((Action)(() => {
+                            StatusText.Text += e.Data;
+                        }));
+                    }
+                );
+
+                p.Start();
+                p.BeginOutputReadLine();
+                p.WaitForExit();
 
             });
-            StatusText.Text = output?.ToString();
+            //StatusText.Text = output?.ToString();
             await Task.Run(() =>
             {
                 // Store the log
