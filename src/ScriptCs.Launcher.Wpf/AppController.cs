@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ScriptCs.Launcher.Wpf
 {
@@ -34,6 +35,78 @@ namespace ScriptCs.Launcher.Wpf
         public void Save()
         {
             FileHelpers.SaveConfiguration(this.ViewModel);
+        }
+
+        public async Task Execute(ScriptInfo script)
+        {
+            if (script == null)
+                throw new ArgumentNullException(nameof(script));
+
+            try
+            {
+                script.Executing = true;
+                script.UpdateProperty(nameof(script.Executing));
+
+                switch (script.Host)
+                {
+                    case ExecutionHost.Commandline:
+                    default:
+                        await ExecuteCommandline(script);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            { }
+            finally
+            {
+                script.Executing = false;
+                script.UpdateProperty(nameof(script.Executing));
+            }
+        }
+
+        private async Task ExecuteCommandline(ScriptInfo script)
+        {
+            /*
+            if (scriptHost == null)
+            {
+                scriptHost = new ScriptHost();
+                scriptHost.Initialize();
+            }
+            */
+            String output = null;
+            string path = script.Path.Trim(' ', '"', '\'');
+            string parameters = String.IsNullOrWhiteSpace(script.Arguments) ? String.Empty : $"-- {script.Arguments}";
+            string arguments = $"\"{path}\" {parameters}";
+
+            await Task.Run(() =>
+            {
+                var p = new Process();
+                p.StartInfo = new ProcessStartInfo()
+                {
+                    Arguments = arguments,
+                    CreateNoWindow = true,
+                    FileName = "scriptcs",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                };
+
+                p.OutputDataReceived += new DataReceivedEventHandler(
+                    (s, e) =>
+                    {
+                        script.Output += e.Data;
+                        script.UpdateProperty(nameof(script.Output));
+                    }
+                );
+
+                p.Start();
+                p.BeginOutputReadLine();
+                p.WaitForExit();
+            });
+
+            await Task.Run(() =>
+            {
+                // Store the log
+            });
         }
     }
 }
