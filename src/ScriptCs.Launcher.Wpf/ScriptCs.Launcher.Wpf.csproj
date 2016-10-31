@@ -64,8 +64,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppController.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\FileHelpers.cs" />
     <Compile Include="ScriptList\ApplicationVM.cs" />
+    <Compile Include="ScriptList\ExecutionHost.cs" />
     <Compile Include="ScriptList\ScriptInfo.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">

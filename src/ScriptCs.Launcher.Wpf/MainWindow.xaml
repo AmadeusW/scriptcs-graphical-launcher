@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScriptCs.Launcher.Wpf"
+        xmlns:converters="clr-namespace:ScriptCs.Launcher.Wpf.Converters"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Initialized="Window_Initialized" Closing="Window_Closing">
+    <Window.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBoolean" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -19,7 +23,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Button Padding="3">
+                        <Button Padding="3" Tag="{Binding .}" Click="Button_Click">
                             <Button.Background>
                                 <SolidColorBrush Color="{Binding Path=Color}" />
                             </Button.Background>
@@ -45,8 +49,13 @@
             <TextBox DockPanel.Dock="Top" x:Name="Path" KeyUp="Path_KeyUp" Text="{Binding SelectedItem.Path, ElementName=allItems}" />
             <TextBlock DockPanel.Dock="Top">Script params:</TextBlock>
             <TextBox DockPanel.Dock="Top" x:Name="Params" KeyUp="Path_KeyUp" Text="{Binding SelectedItem.Arguments, ElementName=allItems}" />
-            <Button DockPanel.Dock="Top" x:Name="ExecuteButton" Click="Button_Click">Execute</Button>
-            <TextBox x:Name="StatusText" IsReadOnly="True"> </TextBox>
+            <Button DockPanel.Dock="Top" 
+                    x:Name="ExecuteButton" 
+                    Click="Button_Click" 
+                    IsEnabled="{Binding SelectedItem.Executing, ElementName=allItems, Converter={StaticResource InverseBoolean}}" 
+                    Tag="{Binding SelectedItem, ElementName=allItems}"
+                >Execute</Button>
+            <TextBox x:Name="StatusText" IsReadOnly="True" Text="{Binding SelectedItem.Output, ElementName=allItems}"> </TextBox>
         </DockPanel>
     </Grid>
 </Window>

@@ -21,6 +21,14 @@ namespace ScriptCs.Launcher.Wpf.Helpers
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public void UpdateProperty(string propertyName)
+        {
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentException(nameof(propertyName));
+            NotifyPropertyChanged(propertyName);
+        }
+
         #endregion
     }
 }
