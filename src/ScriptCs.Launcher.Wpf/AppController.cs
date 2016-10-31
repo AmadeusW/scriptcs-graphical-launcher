@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ScriptCs.Launcher.Wpf
 {
@@ -79,7 +80,8 @@ namespace ScriptCs.Launcher.Wpf
 
             await Task.Run(() =>
             {
-                var processStartInfo = new System.Diagnostics.ProcessStartInfo()
+                var p = new Process();
+                p.StartInfo = new ProcessStartInfo()
                 {
                     Arguments = arguments,
                     CreateNoWindow = true,
@@ -87,13 +89,19 @@ namespace ScriptCs.Launcher.Wpf
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                 };
-                var proc = System.Diagnostics.Process.Start(processStartInfo);
-                output = proc.StandardOutput.ReadToEnd();
-                proc.WaitForExit();
 
+                p.OutputDataReceived += new DataReceivedEventHandler(
+                    (s, e) =>
+                    {
+                        script.Output += e.Data;
+                        script.UpdateProperty(nameof(script.Output));
+                    }
+                );
+
+                p.Start();
+                p.BeginOutputReadLine();
+                p.WaitForExit();
             });
-            script.Output = output?.ToString();
-            script.UpdateProperty(nameof(script.Output)); // fuck this shit
 
             await Task.Run(() =>
             {

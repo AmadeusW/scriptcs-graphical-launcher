@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCs.Launcher.Wpf", "Sc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCs.Launcher", "ScriptCs.Launcher\ScriptCs.Launcher.csproj", "{FEF3E574-4627-4F6D-9F58-63BC8F4457AB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testing", "testing", "{AF75BA89-7858-4B78-BD79-74A73372050B}"
+	ProjectSection(SolutionItems) = preProject
+		testing\longRunning.bat = testing\longRunning.bat
+		testing\longRunning.csx = testing\longRunning.csx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
