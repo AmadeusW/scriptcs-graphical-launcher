@@ -1,4 +1,5 @@
 ﻿using ScriptCs.Launcher.Wpf.ScriptList;
+using ScriptCs.Launcher.Wpf.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +21,7 @@ namespace ScriptCs.Launcher.Wpf.Helpers
             return scriptDataPath;
         }
 
-        public static ApplicationVM LoadConfiguration()
+        public static SavedApplicationVM LoadConfiguration()
         {
             if (!File.Exists(GetConfigurationPath()))
                 return null;
@@ -28,12 +29,12 @@ namespace ScriptCs.Launcher.Wpf.Helpers
             using (var stream = File.OpenText(GetConfigurationPath()))
             {
                 var d = new YamlDotNet.Serialization.Deserializer();
-                var configuration = d.Deserialize<ApplicationVM>(stream);
+                var configuration = d.Deserialize<SavedApplicationVM>(stream);
                 return configuration;
             }
         }
 
-        public static void SaveConfiguration(ApplicationVM configuration)
+        public static void SaveConfiguration(SavedApplicationVM configuration)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(GetConfigurationPath()));
             using (var writer = File.CreateText(GetConfigurationPath()))

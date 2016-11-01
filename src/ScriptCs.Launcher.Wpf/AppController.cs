@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using ScriptCs.Launcher.Wpf.Serialization;
 
 namespace ScriptCs.Launcher.Wpf
 {
@@ -22,7 +23,7 @@ namespace ScriptCs.Launcher.Wpf
 
             await Task.Run(() =>
             {
-                vm = FileHelpers.LoadConfiguration();
+                vm = SavedApplicationVM.MakeVM(FileHelpers.LoadConfiguration());
                 if (vm == null)
                 {
                     vm = new ApplicationVM { Scripts = new List<ScriptInfo>() { new ScriptInfo { Name = "hey" } } };
@@ -34,7 +35,7 @@ namespace ScriptCs.Launcher.Wpf
 
         public void Save()
         {
-            FileHelpers.SaveConfiguration(this.ViewModel);
+            FileHelpers.SaveConfiguration(SavedApplicationVM.FromVM(ViewModel));
         }
 
         public async Task Execute(ScriptInfo script)

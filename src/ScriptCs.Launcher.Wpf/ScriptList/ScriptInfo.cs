@@ -20,8 +20,8 @@ namespace ScriptCs.Launcher.Wpf.ScriptList
         public string Shortcut { get; set; }
         public string Color { get; set; }
 
-        // Do not serialize below
-        public bool Executing { get; set; }
-        public string Output { get; set; }
+        // Runtime/viewmodel
+        public bool Executing { get; set; } = false;
+        public string Output { get; set; } = String.Empty;
     }
 }

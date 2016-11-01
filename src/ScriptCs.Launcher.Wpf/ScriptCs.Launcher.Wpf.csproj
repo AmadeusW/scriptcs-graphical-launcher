@@ -68,6 +68,8 @@
     <Compile Include="Helpers\FileHelpers.cs" />
     <Compile Include="ScriptList\ApplicationVM.cs" />
     <Compile Include="ScriptList\ExecutionHost.cs" />
+    <Compile Include="Serialization\SavedApplicationVM.cs" />
+    <Compile Include="Serialization\SavedScriptInfo.cs" />
     <Compile Include="ScriptList\ScriptInfo.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
