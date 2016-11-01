@@ -59,6 +59,18 @@ namespace ScriptCs.Launcher.Wpf
             }
         }
 
+        private async void Stop_Click(Object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await controller.Stop((sender as Button).Tag as ScriptInfo);
+            }
+            catch (Exception ex)
+            {
+                StatusText.Text = ex.Message;
+            }
+        }
+
         private async void Window_Initialized(object sender, EventArgs e)
         {
             try

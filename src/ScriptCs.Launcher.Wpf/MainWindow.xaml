@@ -10,6 +10,8 @@
         Title="MainWindow" Height="350" Width="525" Initialized="Window_Initialized" Closing="Window_Closing">
     <Window.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBoolean" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibility" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -50,11 +52,15 @@
             <TextBlock DockPanel.Dock="Top">Script params:</TextBlock>
             <TextBox DockPanel.Dock="Top" x:Name="Params" KeyUp="Path_KeyUp" Text="{Binding SelectedItem.Arguments, ElementName=allItems}" />
             <Button DockPanel.Dock="Top" 
-                    x:Name="ExecuteButton" 
                     Click="Button_Click" 
-                    IsEnabled="{Binding SelectedItem.Executing, ElementName=allItems, Converter={StaticResource InverseBoolean}}" 
+                    Visibility="{Binding SelectedItem.Executing, ElementName=allItems, Converter={StaticResource InverseBooleanToVisibility}}" 
                     Tag="{Binding SelectedItem, ElementName=allItems}"
                 >Execute</Button>
+            <Button DockPanel.Dock="Top" 
+                    Click="Stop_Click" 
+                    Visibility="{Binding SelectedItem.Executing, ElementName=allItems, Converter={StaticResource BooleanToVisibility}}" 
+                    Tag="{Binding SelectedItem, ElementName=allItems}"
+                >Stop</Button>
             <TextBox x:Name="StatusText" IsReadOnly="True" Text="{Binding SelectedItem.Output, ElementName=allItems}"> </TextBox>
         </DockPanel>
     </Grid>

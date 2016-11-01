@@ -65,6 +65,18 @@ namespace ScriptCs.Launcher.Wpf
             }
         }
 
+        public async Task Stop(ScriptInfo script)
+        {
+            if (!script.Executing)
+                throw new InvalidOperationException("Attempted to stop script that is not running.");
+            if (script.Process == null)
+                throw new InvalidOperationException("Attempted to stop script without associated process.");
+
+            script.Process.Kill();
+            script.Executing = false;
+            script.Process = null;
+        }
+
         private async Task ExecuteCommandline(ScriptInfo script)
         {
             /*
@@ -82,6 +94,7 @@ namespace ScriptCs.Launcher.Wpf
             await Task.Run(() =>
             {
                 var p = new Process();
+                script.Process = p;
                 p.StartInfo = new ProcessStartInfo()
                 {
                     Arguments = arguments,
@@ -102,6 +115,7 @@ namespace ScriptCs.Launcher.Wpf
                 p.Start();
                 p.BeginOutputReadLine();
                 p.WaitForExit();
+                script.Process = null;
             });
 
             await Task.Run(() =>

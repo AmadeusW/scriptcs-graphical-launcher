@@ -1,6 +1,7 @@
 ﻿using ScriptCs.Launcher.Wpf.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,5 +24,6 @@ namespace ScriptCs.Launcher.Wpf.ScriptList
         // Runtime/viewmodel
         public bool Executing { get; set; } = false;
         public string Output { get; set; } = String.Empty;
+        public Process Process { get; set; }
     }
 }
